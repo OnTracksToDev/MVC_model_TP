@@ -1,0 +1,57 @@
+<style>
+    .card-img-top {
+        aspect-ratio: 16/9;
+    }
+
+    .card {
+        width:25rem;
+        transition: transform 1s;
+    }
+
+    .card:hover {
+        transform: scale(1.02);
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        height: 100%;
+    }
+</style>
+
+
+
+<h1 class="text-center">GALLERY</h1>
+<h2><?= $info ?></h2>
+<section class="row">
+    <?php
+    foreach ($results as $image) {
+        $id = $image['id'];
+        $description = $image['description'];
+        $source = $image['source'];
+        $title = $image['title'];
+        $author = $image['author'];
+        $created_at = $image['created_at'];
+        $updated_at = $image['updated_at']
+    ?>
+        <div class="col-12 col-sm-6 col-md-4 mb-5 ">
+            <div class="card mb-3 mt-3">
+                <a href="<?= '?page=details&id=' . $id ?>">
+                    <img src=" <?= $source ?>" class="card-img-top img-fluid" alt="<?= $description ?>">
+                </a>
+                <div class="card-body">
+                    <a href="<?= '?page=details&id=' . $id ?>" class="text-dark text-decoration-none">
+
+                        <h5 class=" card-title"><?= $title . ' by ' . $author ?></h5>
+                    </a>
+                    <p><?php echo "Posté le " . $created_at ?></p>
+                    <p class="card-text">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto maxime qui provident. Nam, rerum molestias?</p>
+                    <p><?php echo "Modifié le " . $updated_at ?></p>
+                    <a href="<?= '?page=details&id=' . $id ?> " class="btn btn-secondary">Read me</a>
+                </div>
+            </div>
+        </div>
+    <?php
+    } ?>
+</section>
