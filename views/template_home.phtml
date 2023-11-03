@@ -1,35 +1,45 @@
-<h1 class="text-center mb-5">HOME</h1>
-<div class="container">
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <?php
-            $count = 0;
-            foreach (array_reverse($results) as $key => $image) :
-                $id = $image['id'];
-                $description = $image['description'];
-                $source = $image['source'];
-                $title = $image['title'];
-                $author = $image['author'];
-                $created_at = $image['created_at'];
-                $updated_at = $image['updated_at'];
-                if ($count < 3) {
-            ?>
-                    <div class="carousel-item <?php if (array_key_first($results) === $key) echo "active"; ?>">
-                        <img class="d-block w-100" src="<?= $source ?>" style="aspect-ratio: 16/9">
-                    </div>
-            <?php $count++;
-                }
-            endforeach;
-            ?>
 
+<h1 class="text-center">Home of <br><?= CONFIG_SITE_TITLE ?></h1>
+
+<!-- DEBUT DU CAROUSEL -->
+<div class="container
+">
+    <div id="homeCarousel" class="carousel slide" data-bs-touch="true">
+
+        <!-- DIV DES BOUTONS DU CAROUSEL EN BAS -->
+        <div class="carousel-indicators">
+            <!-- PREMIERE BOUCLE POUR AFFICHER LES BOUTONS EN BAS -->
+            <!-- ON FAIT UNE BOUCLE PHP FOREACH POUR CHAQUE PIC -->
+            <!-- LA VARIABLE $key ICI PERMET D'AVOIR UN DECOMPTE 0, 1, 2 POUR FAIRE FONCTIONNER LE SLIDER -->
+            <?php foreach ($results as $key => $image) : ?>
+                <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="<?= $key ?>" <?php if ($key === array_key_first($results)) echo 'class="active" aria-current="true"'; ?> aria-label="Slide <?= $key + 1 ?>"></button>
+            <?php endforeach ?>
+            <!-- FIN DE LA BOUCLE FOREACH DES BOUTONS DU BAS DU CAROUSEL -->
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+
+        <!-- DIV DU CONTENU DU CAROUSEL DONC DES SLIDES -->
+        <div class="carousel-inner">
+            <!-- DEUXIEME BOUCLE FOREACH POUR AFFICHER CHAQUE PIC AVEC SRC TITLE ET DESCRIPTION -->
+            <?php foreach ($results as $key => $image) : ?>
+                <div class="carousel-item <?php if ($key === array_key_first($results)) echo 'active' ?>">
+                    <img src="<?= $image['source'] ?>" class="d-block w-100" alt="<?= $image['title'] ?>">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5><?= $image['title'] ?></h5>
+                        <p><?= $image['description'] ?></p>
+                    </div>
+                </div>
+            <?php endforeach ?>
+            <!-- FIN DE LA FIN DE LA BOUCLE  -->
+        </div>
+        <!-- FIN DIV DU CONTENU DU CAROUSEL -->
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#homeCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
 </div>

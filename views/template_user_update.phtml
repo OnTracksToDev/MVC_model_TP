@@ -1,0 +1,26 @@
+<h2 class="text-center"> UPDATE USER</h2>
+
+<div class="container">
+
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-check-label" for="name">Name</label>
+            <input type="text" name="name" placeholder="Enter your name" class="form-control " id="name" aria-describedby="nameHelp">
+
+        </div>
+        <div class="mb-3">
+            <label class="form-check-label" for="firstName">First Name</label>
+            <input type="text" name="firstName" placeholder="Enter your first name" class="form-control " id="firstName" aria-describedby="firstNameHelp">
+
+        </div>
+        <div class="mb-3">
+            <label for="Email" class="form-label">Email address</label>
+            <input type="mail" name="mail" placeholder="Enter your mail" class="form-control " id="Email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" name="submit" value="Update Profil Infos">
+            <a href="?page=profil" class="btn btn-success m-1">Back profil</a>
+            <?= $msg ?>
+        </div>
+    </form>
+</div>

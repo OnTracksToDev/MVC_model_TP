@@ -1,2 +1,31 @@
+<h1 class="text-center mb-5">Register</h1>
 
-<h1 class="text-center mb-5">CONTACT</h1>
+
+<form method="POST" id="subscribe">
+    <div class="mb-3">
+        <label class="form-check-label" for="name">Name</label>
+        <input type="text" name="name" placeholder="Enter your name" class="form-control bg-<?php echo $bg; ?>" id="name" aria-describedby="nameHelp">
+        <?= $msgName?>
+
+    </div>
+    <div class="mb-3">
+        <label class="form-check-label" for="firstName">First Name</label>
+        <input type="text" name="firstName" placeholder="Enter your first name" class="form-control bg-<?php echo $bg; ?>" id="firstName" aria-describedby="firstNameHelp">
+        <?= $msgFirstName?>
+
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email address</label>
+        <input type="mail" name="mail" placeholder="Enter your mail" class="form-control bg-<?php echo $bg; ?>" id="Email" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text text-danger"><?= $msgMail;?></div>
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input type="text" name="password" placeholder="Enter your password" class="form-control bg-<?php echo $bg; ?>" id="Password" aria-describedby="passwordHelp">
+        <?= $msgPassword?>
+
+    </div>
+    <button type="submit" value="Add User" name="userNew" class="btn btn-primary">Register</button>
+</form>
+
+

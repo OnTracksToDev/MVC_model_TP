@@ -1,0 +1,28 @@
+<div class="container">
+    <?php if (!empty($_SESSION['userinfos'])) : ?>
+        <div class=" text-center mt-5 mb-5">
+            <h2>
+                Bienvenue, <?= $_SESSION['userinfos']['name'] ?> sur votre profil !
+            </h2>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-center mt-5">
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Votre Identifiant :<?= $_SESSION['userinfos']['id'] ?></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">First Name : <?= $_SESSION['userinfos']['firstName'] ?></li>
+                    <li class="list-group-item">Name : <?= $_SESSION['userinfos']['name'] ?></li>
+                    <li class="list-group-item">Mail : <?= $_SESSION['userinfos']['mail'] ?></li>
+                    <li class="list-group-item">Created Since : <?= $tempsEcoule ?></li>
+                    <li class="list-group-item">Modif : <?= $_SESSION['userinfos']['dateUpdate'] ?></li>
+                </ul>
+                <div class="card-body">
+                    <a href="index.php" class="card-link">Back Home</a>
+                    <a href="?page=user_update" class="card-link">Update</a>
+                </div>
+            </div>
+        </div>
+
+</div><?php endif; ?>
