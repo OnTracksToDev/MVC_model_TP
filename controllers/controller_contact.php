@@ -12,10 +12,15 @@ $bg = ''; // Initialiser la classe CSS à vide
 
 if (isset($_POST['userNew'])) {
     $mail = strip_tags($_POST['mail']);
+    $password = strip_tags($_POST['password']);
+    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT);
 
     //TEST MAIL VALID
     if (empty($_POST['mail'])) {
         $msgMail = 'Veuillez saisir une adresse e-mail.';
+       
+
+
     } else {
         if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             if ((!empty($_POST['name'])) && (!empty($_POST['firstName'])) && (!empty($_POST['password']))) {
@@ -41,7 +46,7 @@ if (isset($_POST['userNew'])) {
                             strip_tags($_POST['name']),
                             strip_tags($_POST['firstName']),
                             $mail,
-                            strip_tags($_POST['password'])
+                            $hashedPassword
                         ));
                     } catch (Exception $e) {
                         $sqlError = $e->getMessage();

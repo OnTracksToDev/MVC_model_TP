@@ -17,16 +17,19 @@ if (isset($_POST['submit'])) {
         $user = $sql->fetch(PDO::FETCH_ASSOC);
 
         // Authentification 
-        if (
-            $user['mail'] === $_POST['mail'] &&
-            $user['password'] === $_POST['password']
-        ) {
-            $successMessage = 'Connexion réussie !'; // Message de succès
-            //  informations session
-            $_SESSION['userinfos'] = $user;
-            header("Location:?page=profil");
-        } else {
-            $errorMessage = 'Les informations envoyées ne permettent pas de vous identifier.'; // Message d'erreur
+        if ($user) {
+            // Vérification du mot de passe
+            $userEnteredPassword = $_POST['password'];
+            $hashedPasswordFromDatabase = $user['password'];
+
+            if (password_verify($userEnteredPassword, $hashedPasswordFromDatabase)) {
+                // Mot de passe correct, connectez l'utilisateur
+                $successMessage = 'Connexion réussie !'; // Message de succès
+                $_SESSION['userinfos'] = $user;
+                header("Location:?page=profil");
+            } else {
+                $errorMessage = 'Les informations envoyées ne permettent pas de vous identifier.'; // Message d'erreur
+            }
         }
     }
 }
