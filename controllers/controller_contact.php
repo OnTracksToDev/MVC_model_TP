@@ -13,7 +13,7 @@ $bg = ''; // Initialiser la classe CSS à vide
 if (isset($_POST['userNew'])) {
     $mail = strip_tags($_POST['mail']);
     $password = strip_tags($_POST['password']);
-    $hashedPassword = password_hash($Password, PASSWORD_DEFAULT);
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     //TEST MAIL VALID
     if (empty($_POST['mail'])) {

@@ -19,17 +19,15 @@ if (isset($_POST['submit'])) {
         // Authentification 
         if ($user) {
             // Vérification du mot de passe
-            $userEnteredPassword = $_POST['password'];
             $hashedPasswordFromDatabase = $user['password'];
-
-            if (password_verify($userEnteredPassword, $hashedPasswordFromDatabase)) {
+            if (password_verify($password, $hashedPasswordFromDatabase)) {
                 // Mot de passe correct, connectez l'utilisateur
                 $successMessage = 'Connexion réussie !'; // Message de succès
                 $_SESSION['userinfos'] = $user;
                 header("Location:?page=profil");
-            } else {
-                $errorMessage = 'Les informations envoyées ne permettent pas de vous identifier.'; // Message d'erreur
-            }
+            } 
+        }else {
+            $errorMessage = 'Les informations envoyées ne permettent pas de vous identifier.'; // Message d'erreur
         }
     }
 }
