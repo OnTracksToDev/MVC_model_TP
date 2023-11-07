@@ -12,9 +12,7 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
 
     if (!empty($mail) && !empty($password)) {
-        $sql = $db->prepare("SELECT * FROM users WHERE mail=?");
-        $sql->execute(array($mail));
-        $user = $sql->fetch(PDO::FETCH_ASSOC);
+        $user = Users::getUserMail();
 
         // Authentification 
         if ($user) {

@@ -1,9 +1,6 @@
 <?php
-$db = connectDB();
-$sql = $db->prepare("SELECT * FROM images");
-$sql->execute();
-$results = $sql->fetchAll(PDO::FETCH_ASSOC);
+require_once("./models/Pictures.php");
 
-
+$result = Pictures::getLastFourPictures();
 // --- la vue
 include "./views/layout.phtml";

@@ -5,13 +5,13 @@ require_once("./models/Pictures.php");
 
 if (isset($_GET['id'])) {
     $imageID = $_GET['id'];
-    $image = Pictures::getById($imageID);
+    $image = Pictures::getImageById($imageID);
     if ($image) {
         $results = Comment::getComments($imageID);
 		include "./views/layout.phtml";
 
     } else {
-		// ID de l'image est invalide
+		// ID de l'image est invalide redirection home
 		header("Location:?page=home");
     }
 }
