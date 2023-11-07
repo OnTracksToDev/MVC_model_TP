@@ -1,25 +1,26 @@
 <article class="container">
-  <h1 class="text-center mb-5"><?php echo htmlspecialchars($results['title']); ?></h1>
-  <div class="row justify-content-center align-items-center">
-    <div class="card mb-5" style="width: 50rem">
-      <img class="card-img-top" src="<?php echo htmlspecialchars($results['source']); ?>" alt="Card image cap">
-      <div class="card-body d-flex justify-content-around flex-column text-center">
-        <h5 class="card-title">By <?php echo htmlspecialchars($results['author']); ?></h5>
-        <p class="card-text">Your article content here...</p>
-        <p class="card-text">More content here...</p>
-        <div class="d-flex justify-content-around">
-          <p>Published : <?php echo htmlspecialchars($results['created_at']); ?></p>
+  <?php if ($image) { ?>
+    <h1 class="text-center mb-5"><?= $image['title'] ?></h1>
+    <div class="row justify-content-center align-items-center">
+      <div class="card mb-5" style="width: 50rem">
+        <img class="card-img-top" src="<?= $image['source'] ?>" alt="Card image cap">
+        <div class="card-body d-flex justify-content-around flex-column text-center">
+          <h5 class="card-title">By <?= $image['author'] ?></h5>
+          <p class="card-text"><?= $image['description'] ?></p>
+          <p class="card-text"><?= $image['created_at'] ?></p>
         </div>
       </div>
     </div>
-  </div>
+  <?php } else { ?>
+    <p>L'image demandée n'existe pas.</p>
+  <?php } ?>
 </article>
 
 <h2>Commentaires</h2>
 
 <?php
 if (isset($_SESSION['userinfos'])) {
-  //  user session active
+  // Session utilisateur active
 ?>
   <form method="post">
     <div>
@@ -40,37 +41,31 @@ if (isset($_SESSION['userinfos'])) {
 }
 ?>
 
-
-
 <section style="background-color: #eee;">
   <div class="container my-5 py-5">
     <div class="row d-flex justify-content-center">
       <div class="col-md-12 col-lg-10">
         <div class="card text-dark">
-
           <div class="card-body p-4">
-            <h4 class="mb-0">Recent comments</h4>
-            <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
-
-            <div class="d-flex flex-start">
+            <h4 class="mb-0">Commentaires récents</h4>
+            <p class="fw-light mb-4 pb-2">Section des commentaires les plus récents par les utilisateurs</p>
                 <?php
-                foreach ($comments as $comment) {
+                foreach ($results as $comment) {
                 ?>
+            <div class="d-flex flex-start">
               <div>
-
-                  <h6 class="fw-bold mb-1"><?= htmlspecialchars($comment['author']) ?></h6>
-                  <div class="d-flex align-items-center mb-3">
-                    <p class="mb-0">
-                      le <?= $comment['french_creation_date'] ?>
-                    </p>
-                    <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                    <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
-                    <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
-                  </div>
+                <h6 class="fw-bold mb-1"><?= ($comment['author']) ?></h6>
+                <div class="d-flex align-items-center mb-3">
                   <p class="mb-0">
-                    <?= nl2br(htmlspecialchars($comment['comment'])) ?>
+                    le <?= $comment['comment_date'] ?>
                   </p>
-                  
+                  <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                </div>
+                <p class="mb-0">
+                  <?= nl2br(($comment['comment'])) ?>
+                </p>
               </div>
             </div>
             <hr class="my-3" />
