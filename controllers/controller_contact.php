@@ -1,6 +1,8 @@
 <?php
+require_once("./services/database.php");
+require_once("./models/Users.php");
+
 // connect DB
-$db = connectDB();
 
 $msgMail = '';
 $msgName = '';
@@ -11,9 +13,9 @@ $mail = '';
 $bg = ''; // Initialiser la classe CSS à vide
 
 if (isset($_POST['userNew'])) {
-    $mail = strip_tags($_POST['mail']);
-    $password = strip_tags($_POST['password']);
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // $mail = strip_tags($_POST['mail']);
+    // $password = strip_tags($_POST['password']);
+    // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     //TEST MAIL VALID
     if (empty($_POST['mail'])) {
@@ -27,30 +29,32 @@ if (isset($_POST['userNew'])) {
                 //MAIL OK
                 //TEST MAIL EXIST
                 //search mail in table users
-                try {
-                    $sql = "SELECT * FROM users WHERE mail=?";
-                    $stmt = $db->prepare($sql);
-                    $stmt->execute(array($mail));
-                } catch (Exception $e) {
-                    $sqlError = $e->getMessage();
-                }
+                // try {
+                //     $sql = "SELECT * FROM users WHERE mail=?";
+                //     $stmt = $db->prepare($sql);
+                //     $stmt->execute(array($mail));
+                // } catch (Exception $e) {
+                //     $sqlError = $e->getMessage();
+                // }
+                $user = Users::getUserByMail($mail);
 
                 //if empty results
-                if ($stmt->rowCount() == 0) {
-                    //INSERT
+                if (empty($user)) {                    //INSERT
                     // requete INSERT NEW USER
-                    try {
-                        $sql = "INSERT INTO users SET name=?, firstName=?, mail=?, password=?";
-                        $stmt = $db->prepare($sql);
-                        $stmt->execute(array(
-                            strip_tags($_POST['name']),
-                            strip_tags($_POST['firstName']),
-                            $mail,
-                            $hashedPassword
-                        ));
-                    } catch (Exception $e) {
-                        $sqlError = $e->getMessage();
-                    }
+                    // try {
+                    //     $sql = "INSERT INTO users SET name=?, firstName=?, mail=?, password=?";
+                    //     $stmt = $db->prepare($sql);
+                    //     $stmt->execute(array(
+                    //         strip_tags($_POST['name']),
+                    //         strip_tags($_POST['firstName']),
+                    //         $mail,
+                    //         $hashedPassword
+                    //     ));
+                    // } catch (Exception $e) {
+                    //     $sqlError = $e->getMessage();
+                    // }
+                    Users::createUser($name, $firstName, $mail, $password);
+
                     //  if error
                     if (isset($sqlError)) {
                         echo $sqlError;

@@ -4,7 +4,7 @@
 </style>
 
 <h1 class="text-center">Search</h1>
-<h2 class="text-center">Found <?= count($results) ?> result(s)</h2>
+<h2 class="text-center">Found <?= count($results) ?> resultats "<?= htmlspecialchars($query) ?>"</h2>
 <section class="row  mt-4">
     <?php foreach ($results as $image) :
         $id = $image['id'];
