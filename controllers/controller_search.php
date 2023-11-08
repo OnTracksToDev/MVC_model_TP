@@ -2,7 +2,7 @@
 
 require_once("./models/Pictures.php");
 
-$result = Pictures::searchBar();
+$results = Pictures::searchBar();
 
 
 

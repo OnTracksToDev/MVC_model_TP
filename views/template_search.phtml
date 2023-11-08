@@ -14,28 +14,32 @@
         $author = $image['author'];
         $created_at = $image['created_at'];
     ?>
-        <div class="container d-flex justify-content-center mt-1">
-            <article>
-                <div class="card" style="width: 100%;">
-                    <div class="row no-gutters">
-                        <div class="col-sm-5">
-                            <a href="<?= '?page=details&id=' . $id ?>">
-                                <img src=" <?= $source ?>" class="card-img-top img-fluid" alt="<?= $description ?>">
-                            </a>
-                        </div>
-                        <div class="col-sm-7 row text-center">
-                            <div class="card-body col align-self-center ">
-                                <a href="<?= '?page=details&id=' . $id ?>" class="text-dark text-decoration-none">
-                                    <h5 class=" card-title"><?= $title . ' by ' . $author ?></h5>
+
+
+        <div class="container">
+            <div class="container d-flex justify-content-center mt-1">
+                <article>
+                    <div class="card">
+                        <div class="row no-gutters">
+                            <div class="col-sm-5">
+                                <a href="<?= '?page=details&id=' . $id ?>">
+                                    <img src=" <?= $source ?>" class="card-img-top img-fluid" alt="<?= $description ?>">
                                 </a>
-                                <p class="card-text">Posté le : <?= $created_at ?></p>
-                                <p class="card-text">By <?= $author ?></p>
-                                <a href="<?= '?page=details&id=' . $image['id'] ?> " class="btn btn-secondary">Read more</a>
+                            </div>
+                            <div class="col-sm-7 row text-center">
+                                <div class="card-body col align-self-center ">
+                                    <a href="<?= '?page=details&id=' . $id ?>" class="text-dark text-decoration-none">
+                                        <h5 class=" card-title"><?= $title . ' by ' . $author ?></h5>
+                                    </a>
+                                    <p class="card-text">Posté le : <?= $created_at ?></p>
+                                    <p class="card-text">By <?= $author ?></p>
+                                    <a href="<?= '?page=details&id=' . $image['id'] ?> " class="btn btn-secondary">Read more</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </div>
         </div>
     <?php endforeach ?>
 </section>

@@ -1,6 +1,6 @@
 <?php
 require_once("./models/Pictures.php");
 
-$result = Pictures::getLastFourPictures();
+$results = Pictures::getLastFourPictures();
 // --- la vue
 include "./views/layout.phtml";

@@ -17,17 +17,17 @@
   <tbody>
     <?php foreach ($results as $image) : ?>
       <tr>
-        <th scope="row"><?= $image['id'] ?></th>
+        <th scope="row"><?= $image['identifier'] ?></th>
         <td><img width="80" src="<?= $image['source'] ?>" alt="<?= $image['title'] ?>"></td>
         <td><?= $image['title'] ?></td>
         <td><?= $image['author'] ?></td>
         <td><?= $image['description'] ?></td>
 
         <td>
-          <a href="?page=admin_update&id=<?= $image['id'] ?>" class="btn btn-success m-1">Update</a>
-          <a href="?page=admin_delete&id=<?= $image['id'] ?>" class="btn btn-danger m-1">Delete</a>
+          <a href="?page=admin_update&id=<?= $image['identifier'] ?>" class="btn btn-success m-1">Update</a>
+          <a href="?page=admin_delete&id=<?= $image['identifier'] ?>" class="btn btn-danger m-1">Delete</a>
           <br>
-          <a href="javascript:deletePicture(<?= $image['id'] ?>)" class="btn btn-warning m-1">Delete? (confirmJS)</a>
+          <a href="javascript:deletePicture(<?= $image['identifier'] ?>)" class="btn btn-warning m-1">Delete? (confirmJS)</a>
         </td>
       </tr>
     <?php endforeach ?>

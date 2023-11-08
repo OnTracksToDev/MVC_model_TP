@@ -23,12 +23,14 @@ public static function updateUserProfile($id, $firstName, $name, $mail) {
 }
 
 
-public static function getUserMail()
+public static function getUserByMail($mail)
 {
     $pdo = connectDB();
-    $sql = $pdo->prepare("SELECT * FROM users WHERE mail=? LIMIT 1");
+    $sql = $pdo->prepare("SELECT * FROM users WHERE mail = :mail LIMIT 1");
+    $sql->bindParam(':mail', $mail, PDO::PARAM_STR);
     $sql->execute();
     $row = $sql->fetch(PDO::FETCH_ASSOC);
+
 
     if (!$row) {
         return null;
@@ -37,12 +39,33 @@ public static function getUserMail()
     $user = [
         'identifier' => $row['id'],
         'firstName' => $row['firstName'],
+        'name' => $row['name'],
         'mail' => $row['mail'],
+        'dateCreate' => $row['dateCreate'],
+        'dateUpdate' => $row['dateUpdate'],
+        'password' => $row['password'],
+        'id_role' => $row['id_role']
     ];
 
     return $user;
 }
 
+
+public static function getUserRole($userId) {
+    $pdo = connectDB();
+
+    $sql = $pdo->prepare("SELECT r.name FROM users u JOIN roles r ON u.id_role = r.id WHERE u.id = :userId");
+    $sql->bindParam(':userId', $userId, PDO::PARAM_INT);
+    $sql->execute();
+
+    $result = $sql->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return $result['name']; 
+    } else {
+        return null;
+    }
+}
 // public static function calculateTimeElapsedSinceCreation() {
 //     $db = connectDB();
 

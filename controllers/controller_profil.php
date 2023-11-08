@@ -1,5 +1,7 @@
 <?php
-$db = connectDB();
+require_once("./models/Users.php");
+require_once("./services/database.php");
+
 
  $today = new DateTime(); // objet date actuelle
  $dateCreation = new DateTime($_SESSION['userinfos']['dateCreate']); // objet date de création

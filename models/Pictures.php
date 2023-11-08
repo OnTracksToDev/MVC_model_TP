@@ -76,6 +76,7 @@ public static function getLastFourPictures()
 
 
 public static function searchBar(){
+
     $db = connectDB();
     // on récupère la chaine de recherche depuis l'url
     // on la convertit en texte en enlevant les espace...
