@@ -1,40 +1,38 @@
 <?php
-
 $errors = [];
 
-if (isset($_POST['upload'])) {
-    // On copie le fichier temporaire vers 
-    // le dossier UPLOADS de notre projet.
-    $tempFile = $_FILES["image_file"]["tmp_name"];
-    // On peut récupérer des infos sur le fichier  
-    // temporaire avec "GETIMAGESIZE()"
+$upload_max_filesize =  ini_get('upload_max_filesize');
+
+if (isset($_POST['upload'])){
     
-    $checkFile = getimagesize($tempFile);
-    if (!$checkFile) {
-        $errors[] = "Fichier invalide";
-    } else {
-        $extenssionFile = explode("/",$checkFile['mime']);
-        $ext= $extenssionFile[1];
-        // On precise le nom du fichier basé sur un timestamp
-        $newFile = "./uploads/" . time() . ".".$ext;
-        $allowedExt = ['jpeg','jpg','png','gif'];
-        if (!in_array($ext,$allowedExt)) {
-            $errors[] = "Nous n'acceptons que les images jpeg, jpg, png, gif merci";
-        } else if ($_FILES["image_file"]["size"] > 1000000) {
-            $errors[] = "Fichier trop volumineux";
+    $tempFile = $_FILES["image_file"]["tmp_name"];
+    $fileType = $_FILES["image_file"]["type"];
+    $fileSize = $_FILES["image_file"]["size"];
+    $acceptedType = ["png","jpeg"];
+    $tabFileName = !empty($fileType) ? explode("/",$fileType) : [1=>""];
+    $fileExt = $tabFileName[1];
+
+    if ($fileSize > $upload_max_filesize) {
+        $errors[] ="Le fichier est trop gros !";
+    }
+    
+    if (empty($fileSize)) {
+        $errors[] ="Fichier non traité. Vérifiez éventuellement qu'il ne soit pas trop gros...";
+    }
+    
+    if (!in_array($fileExt,$acceptedType)){
+        $errors[] ="Le fichier doit être un .jpg, .jpeg ou .png uniquement";
+    }
+      
+    if (empty($errors)){
+        
+        $newFile = "./uploads/". time() .".".$fileExt;
+        if (@move_uploaded_file($tempFile,$newFile)) {
+            $success = true;
         } else {
-            move_uploaded_file($tempFile, $newFile);
+            $errors[] ="Erreur lors de l'upload du fichier :(";  
         }
-    }
+    } 
 }
-
-if (!empty($errors)) {
-    // On affiche les erreurs
-    foreach ($errors as $error) {
-        echo $error . "<br>";
-    }
-}
-
-
 
 include "./views/layout.phtml";

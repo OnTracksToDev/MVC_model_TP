@@ -13,36 +13,64 @@
   </div>
 
 </article>
-<h2 class="text-center">Commentaires</h2>
+
+
 
 <?php
 if (isset($_SESSION['userinfos'])) {
   // Session utilisateur active
 ?>
-  <div class="container my-2 py-5">
+  <div class="container my-5 py-5">
+    <h2 class="text-center">Rédiger un commentaire</h2>
+
     <div class="row d-flex justify-content-center">
       <div class="col-md-12 col-lg-10">
-        <form method="POST">
-          <div class="mb-3">
-            <label for="author" class="form-label">Auteur</label><br />
-            <input class="form-control" type="text" id="author" name="author" value="<?= $_SESSION['userinfos']['name'] ?>" />
+        <div class="card text-dark">
+          <div class="card-body p-4">
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-12 col-lg-10">
+                <form method="POST" id="commentForm">
+                  <div class="mb-3">
+                    <label for="author" class="form-label">Auteur</label><br />
+                    <input class="form-control" type="text" id="author" name="author" value="<?= $_SESSION['userinfos']['name'] ?>" />
+                    <input type="hidden" name="id_user" value="<?= intval($_SESSION['userinfos']['identifier']) ?>" />
+                    <input type="hidden" name="image_id" value="<?= $image['identifier'] ?>" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="comment" class="form-label">Commentaire</label><br />
+                    <textarea class="form-control" id="comment" name="comment"></textarea>
+                  </div>
+                  <input class="btn btn-primary" type="submit" name="submitComment" value="Ajouter un commentaire" />
+                </form>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="comment" class="form-label">Commentaire</label><br />
-            <textarea class="form-control" id="comment" name="comment"></textarea>
+        </div>
+        <?php if (!empty($errors)) : ?>
+          <div class="alert alert-danger" role="alert">
+            <?php foreach ($errors as $error) : ?>
+              <p><?= $error ?></p>
+            <?php endforeach; ?>
           </div>
-          <input class="btn btn-primary" type="submit" name="submitComment" value="Ajouter un commentaire" />
-        </form>
+        <?php endif; ?>
+
+        <?php if (isset($success)) : ?>
+          <div class="alert alert-success" role="alert">
+            <p>Le commentaire a été ajouté avec succès !</p>
+          </div>
+        <?php endif; ?>
       </div>
     </div>
+
   </div>
-  
 <?php
 } else {
-  echo "Connectez-vous pour ajouter un commentaire.";
+?>
+  <div class="d-flex justify-content-center">
+    <a href="?page=login" class="btn btn-success m-1">Connectez-vous pour ajouter un commentaire!</a>
+  </div>
+<?php
 }
-var_dump($imageID);
-
 ?>
 
 <section style="background-color: #eee;">
@@ -51,10 +79,15 @@ var_dump($imageID);
       <div class="col-md-12 col-lg-10">
         <div class="card text-dark">
           <div class="card-body p-4">
-            <h4 class="mb-0">Commentaires récents</h4>
+            <?php
+            $commentCount = count($results);
+            $displayLimit = 2; ?>
+            <h4 class="mb-0"><?= $commentCount > 1 ? $commentCount . " Commentaires" : $commentCount . " Commentaire" ?></h4>
             <p class="fw-light mb-4 pb-2">Section des commentaires les plus récents par les utilisateurs</p>
             <?php
-            foreach ($results as $comment) {
+            //boucle 
+            for ($i = 0; $i < min($commentCount, $displayLimit); $i++) {
+              $comment = $results[$i];
             ?>
               <div class="d-flex flex-start">
                 <div>
@@ -63,16 +96,66 @@ var_dump($imageID);
                     <p class="mb-0">
                       le <?= $comment['dateComment'] ?>
                     </p>
-                    <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
-                    <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
-                    <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
                   </div>
                   <p class="mb-0">
                     <?= nl2br(($comment['comment'])) ?>
                   </p>
+                  <a href="#!" class="link-muted">Editer<i class="fas fa-pencil-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted">Reply<i class="fas fa-redo-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted">Like<i class="fas fa-heart ms-2"></i></a>
                 </div>
               </div>
               <hr class="my-3" />
+            <?php } ?>
+
+            <div id="hiddenComments" style="display: none;">
+              <?php
+              // autres commentaires
+              for ($i = $displayLimit; $i < $commentCount; $i++) {
+                $comment = $results[$i];
+              ?>
+                <div class="d-flex flex-start">
+                  <div>
+                    <h6 class="fw-bold mb-1"><?= ($comment['name']) ?></h6>
+                    <div class="d-flex align-items-center mb-3">
+                      <p class="mb-0">
+                        le <?= $comment['dateComment'] ?>
+                      </p>
+                    </div>
+                    <p class="mb-0">
+                      <?= nl2br(($comment['comment'])) ?>
+                    </p>
+                    <a href="#!" class="link-muted">Editer<i class="fas fa-pencil-alt ms-2"></i></a>
+                    <a href="#!" class="link-muted">Reply<i class="fas fa-redo-alt ms-2"></i></a>
+                    <a href="#!" class="link-muted">Like<i class="fas fa-heart ms-2"></i></a>
+                  </div>
+                </div>
+                <hr class="my-3" />
+              <?php } ?>
+            </div>
+
+            <?php if ($commentCount > $displayLimit) { ?>
+              <button id="showMoreBtn" class="btn btn-primary">Afficher plus de commentaires</button>
+              <button id="showLessBtn" class="btn btn-primary" style="display: none;">Réduire les commentaires</button>
+
+              <script>
+                // Affichage liste Commentaires
+                let hiddenComments = document.getElementById("hiddenComments");
+                let showMoreBtn = document.getElementById("showMoreBtn");
+                let showLessBtn = document.getElementById("showLessBtn");
+
+                showMoreBtn.addEventListener("click", function() {
+                  hiddenComments.style.display = "block";
+                  showMoreBtn.style.display = "none";
+                  showLessBtn.style.display = "block";
+                });
+
+                showLessBtn.addEventListener("click", function() {
+                  hiddenComments.style.display = "none";
+                  showMoreBtn.style.display = "block";
+                  showLessBtn.style.display = "none";
+                });
+              </script>
             <?php } ?>
           </div>
         </div>

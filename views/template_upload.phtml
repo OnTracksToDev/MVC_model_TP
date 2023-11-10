@@ -1,13 +1,19 @@
+<h1 class="mt-5">Upload</h1>
+<?php if (!empty($errors)) : ?>
+    <div class="alert alert-danger" role="alert">
+        <?php foreach ($errors as $error) : ?>
+            <p><?= $error ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+<?php if (isset($success)) : ?>
+    <div class="alert alert-success" role="alert">
+        <p>Le fichier a été uploadé avec succes !</p>
+    </div>
+<?php endif; ?>
 
-<h1 class= "mt-5">Upload</h1>
-<?php
-// var_dump($_FILES);
-// var_dump($_FILES['image_file']['type']);
-if(!empty($error)) echo $error;
-?>
-<p>Attention ne pas uploader un fichier dont la taille est superieur a </p>
+<p>Attention ne pas uploader un fichier dont la taille est supérieure à <?= $upload_max_filesize ?> octets</p>
 <form method="POST" enctype="multipart/form-data">
-<input type="file" name="image_file" accept="image/*">
-<input type="submit" name="upload" value="Upload">
-
+    <input type="file" name="image_file" accept="image/*">
+    <input type="submit" name="upload" value="Upload">
 </form>

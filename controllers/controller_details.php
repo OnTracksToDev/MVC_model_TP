@@ -2,29 +2,42 @@
 require_once("./models/Comment.php");
 require_once("./models/Pictures.php");
 
+$errors = [];
+
 if (isset($_GET['id'])) {
-  $imageID = $_GET['id'];
-  $image = Pictures::getImageById($imageID);
-  if ($image) {
-    $results = Comment::getComments($imageID);
+    $imageID = $_GET['id'];
+    $image = Pictures::getImageById($imageID);
 
-    if (isset($_POST['submitComment'])) {
-      if (!empty($_POST['author']) && !empty($_POST['comment'])) {
-        $comment = $_POST['comment'];
-        $author = $_POST['author'];
-      } else {
-        die('Les données du formulaire sont invalides.');
-      }
+    if ($image) {
+        $results = Comment::getComments($imageID);
 
-      $success = Comment::createComment($imageID, $author, $comment);
-      if (!$success) {
-        die('Impossible d\'ajouter le commentaire !');
-      } else {
-        header('Location: index.php?action=post&id=' . $imageID);
-      }
+        if (isset($_POST['submitComment'])) {
+            if (!empty($_POST['id_user']) && !empty($_POST['comment'])) {
+                $comment = $_POST['comment'];
+                $author = intval($_POST['id_user']);
+            } else {
+                $errors[] = 'Les données du formulaire sont invalides.';
+            }
+
+            if (empty($errors)) {
+                $success = Comment::createComment($imageID, $author, $comment);
+
+                if ($success) {
+                    header('Location: ?page=details&id='.$imageID);
+                    exit();
+                } else {
+                    $errors[] = 'Impossible d\'ajouter le commentaire !';
+                }
+            }
+        }
     }
-
-  }
 }
 
 include "./views/layout.phtml";
+
+
+
+
+
+
+

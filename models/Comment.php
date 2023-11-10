@@ -9,8 +9,9 @@ class Comment
     {
         $database = connectDB();
         $statement = $database->prepare(
-        ("SELECT
+            ("SELECT
         users.firstName AS name,
+        users.id, 
         commentaires.comment,
         DATE_FORMAT(commentaires.dateComment, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date  
         FROM
@@ -26,6 +27,7 @@ class Comment
         $comments = [];
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             $comment = [
+                'identifier' => $row['id'],
                 'name' => $row['name'],
                 'dateComment' => $row['french_creation_date'],
                 'comment' => $row['comment'],
@@ -36,17 +38,14 @@ class Comment
         return $comments;
     }
 
-    public static function createComment($imageID, $author, $comment)
+    public static function createComment($imageID, $userID, $comment)
     {
         $database = connectDB();
-        $statement = $database->prepare("INSERT INTO commentaires (id_image, author, comment, comment_date) VALUES (?, ?, ?, NOW()) ");
-
-        // Bind parameters using 1-based indexing
-        $statement->bindParam(1, $author);
-        $statement->bindParam(2, $comment);
-        $statement->bindParam(3, $imageID);
-
-        // Execute the statement
+        $statement = $database->prepare("INSERT INTO commentaires (id_image, id_user, comment, dateComment) VALUES (?, ?, ?, NOW()) ");
+        // Lie un paramètre à variable 
+        $statement->bindParam(1, $imageID);
+        $statement->bindParam(2, $userID);
+        $statement->bindParam(3, $comment);
         $affectedLines = $statement->execute();
 
         return ($affectedLines > 0);
