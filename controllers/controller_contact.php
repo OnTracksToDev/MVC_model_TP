@@ -13,48 +13,21 @@ $mail = '';
 $bg = ''; // Initialiser la classe CSS à vide
 
 if (isset($_POST['userNew'])) {
-    // $mail = strip_tags($_POST['mail']);
-    // $password = strip_tags($_POST['password']);
-    // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $mail = strip_tags($_POST['mail']);
+    $firstName = strip_tags($_POST['firstName']);
+    $name = strip_tags($_POST['firstName']);
+    $password = strip_tags($_POST['password']);
 
     //TEST MAIL VALID
     if (empty($_POST['mail'])) {
         $msgMail = 'Veuillez saisir une adresse e-mail.';
-       
-
-
     } else {
         if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             if ((!empty($_POST['name'])) && (!empty($_POST['firstName'])) && (!empty($_POST['password']))) {
-                //MAIL OK
-                //TEST MAIL EXIST
-                //search mail in table users
-                // try {
-                //     $sql = "SELECT * FROM users WHERE mail=?";
-                //     $stmt = $db->prepare($sql);
-                //     $stmt->execute(array($mail));
-                // } catch (Exception $e) {
-                //     $sqlError = $e->getMessage();
-                // }
                 $user = Users::getUserByMail($mail);
-
                 //if empty results
-                if (empty($user)) {                    //INSERT
-                    // requete INSERT NEW USER
-                    // try {
-                    //     $sql = "INSERT INTO users SET name=?, firstName=?, mail=?, password=?";
-                    //     $stmt = $db->prepare($sql);
-                    //     $stmt->execute(array(
-                    //         strip_tags($_POST['name']),
-                    //         strip_tags($_POST['firstName']),
-                    //         $mail,
-                    //         $hashedPassword
-                    //     ));
-                    // } catch (Exception $e) {
-                    //     $sqlError = $e->getMessage();
-                    // }
+                if (empty($user)) {
                     Users::createUser($name, $firstName, $mail, $password);
-
                     //  if error
                     if (isset($sqlError)) {
                         echo $sqlError;
@@ -69,8 +42,6 @@ if (isset($_POST['userNew'])) {
             $msgMail = $msgNoValidate;
         }
     }
-
-
     //TEST NAME
     if (empty($_POST['name'])) {
         $msgName = '<div id="nameHelp" class="form-text text-danger">Veuillez saisir un nom</div>';

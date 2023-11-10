@@ -74,11 +74,6 @@ class Users
     public static function createUser($name, $firstName, $mail, $password)
     {
         $pdo = connectDB();
-        $mail = strip_tags($_POST['mail']);
-        $firstName = strip_tags($_POST['firstName']);
-        $name = strip_tags($_POST['firstName']);
-
-        $password = strip_tags($_POST['password']);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         try {
             $sql = $pdo->prepare("INSERT INTO users SET name=?, firstName=?, mail=?, password=?");
@@ -91,6 +86,8 @@ class Users
         } catch (Exception $e) {
             $sqlError = $e->getMessage();
         }
+
+        
     }
     // Code pour insérer un nouvel utilisateur dans la base de données
     // public static function calculateTimeElapsedSinceCreation() {

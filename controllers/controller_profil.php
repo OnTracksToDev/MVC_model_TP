@@ -1,6 +1,7 @@
 <?php
 require_once("./models/Users.php");
 require_once("./services/database.php");
+require_once("./models/Comment.php");
 
 
  $today = new DateTime(); // objet date actuelle

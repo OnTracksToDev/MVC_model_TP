@@ -11,25 +11,18 @@
     main {
         margin-top: 6rem;
     }
-
     img.logo {
         width: 60px;
     }
-
     h4.card-title {
         min-height: 6rem;
     }
-
+    .card-img-top,
     .carousel-item img {
         aspect-ratio: 16/9;
-        object-fit: center;
+        object-fit: cover;
+        object-position: center;
     }
-
-    #homeCarousel {
-        /* max-width:700px; */
-        margin: auto;
-    }
-
     .carousel-caption {
         background-color: rgba(0, 0, 0, 0.3);
     }
@@ -57,22 +50,27 @@
                 <?php
 
                 if (!isset($_SESSION['userinfos'])) {
+                    // User is not logged in
                     echo '<a href="?page=contact" class="btn btn-success m-1">S\'inscrire</a>';
-
-                    if (isset($_SESSION['userinfos'])) {
-                        if (isset($_SESSION['userinfos']['id_role']) == '1') { // Assuming '1' represents the 'admin' role in the database
-                            echo '<a href="?page=admin_list" class="btn btn-warning m-1">ADMIN</a>';
-                        }
-                        echo '<a href="?page=signout" class="btn btn-success m-1">Se déconnecter</a>';
-                        echo '<a href="?page=profil" class="btn btn-success m-1">' . $_SESSION['userinfos']['name'] . ' Profil</a>';
-                    }
                     echo '<a href="?page=login" class="btn btn-success m-1">Se connecter</a>';
+                } else {
+                    // User is logged in
+                    $user = $_SESSION['userinfos'];
+                    // admin link if user is an admin
+                    if ($user['id_role'] == 1) {
+                        echo '<a href="?page=admin_list" class="btn btn-warning m-1">ADMIN</a>';
+                    }
+                    //  user profile 
+                    echo '<a href="?page=profil" class="btn btn-success m-1">' . $user['name'] . ' Profil</a>';
+                    //  logout 
+                    echo '<a href="?page=signout" class="btn btn-success m-1">Se déconnecter</a>';
                 }
+
                 ?>
 
                 <form class="d-flex" role="search">
                     <input name="page" value="search" type="hidden">
-                    <input name="keywords" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>

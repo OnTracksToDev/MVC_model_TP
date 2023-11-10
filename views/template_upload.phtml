@@ -5,6 +5,7 @@
 // var_dump($_FILES['image_file']['type']);
 if(!empty($error)) echo $error;
 ?>
+<p>Attention ne pas uploader un fichier dont la taille est superieur a </p>
 <form method="POST" enctype="multipart/form-data">
 <input type="file" name="image_file" accept="image/*">
 <input type="submit" name="upload" value="Upload">
