@@ -1,5 +1,4 @@
 <?php
-// controller.php
 require_once("./models/Users.php");
 
 $id = $_SESSION['userinfos']['id'];

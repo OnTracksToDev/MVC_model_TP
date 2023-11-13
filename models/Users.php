@@ -1,6 +1,7 @@
 <?php
 require_once("./services/database.php");
 
+
 class Users
 {
 
@@ -23,6 +24,7 @@ class Users
             return $e->getMessage();
         }
     }
+    
 
 
     public static function getUserByMail($mail)

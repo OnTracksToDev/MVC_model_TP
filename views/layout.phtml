@@ -56,8 +56,8 @@
 
                 if (!isset($_SESSION['userinfos'])) {
                     // User is not logged in
-                    echo '<a href="?page=contact" class="btn btn-success m-1">S\'inscrire</a>';
-                    echo '<a href="?page=login" class="btn btn-success m-1">Se connecter</a>';
+                    echo '<a href="?page=contact" class="btn btn-light m-1">S\'inscrire</a>';
+                    echo '<a href="?page=login" class="btn btn-light m-1">Se connecter</a>';
                 } else {
                     // User is logged in
                     $user = $_SESSION['userinfos'];
@@ -66,9 +66,9 @@
                         echo '<a href="?page=admin_list" class="btn btn-warning m-1">ADMIN</a>';
                     }
                     //  user profile 
-                    echo '<a href="?page=profil" class="btn btn-success m-1">' . $user['name'] . ' Profil</a>';
+                    echo '<a href="?page=profil" class="btn btn-light m-1">' . $user['name'] . ' Profil</a>';
                     //  logout 
-                    echo '<a href="?page=signout" class="btn btn-success m-1">Se déconnecter</a>';
+                    echo '<a href="?page=signout" class="btn btn-light m-1">Se déconnecter</a>';
                 }
 
                 ?>
@@ -76,7 +76,7 @@
                 <form class="d-flex" role="search">
                     <input name="page" value="search" type="hidden">
                     <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
         </div>
